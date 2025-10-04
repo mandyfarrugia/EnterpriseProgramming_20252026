@@ -26,3 +26,15 @@ body {
     margin-right: 10px;
     width: 30px;
 }
+
+#properties {
+    margin-top: 2%;
+}
+
+#property-type {
+    margin-bottom: .5%;
+}
+
+#property-description {
+    margin-top: 1.5%;
+}

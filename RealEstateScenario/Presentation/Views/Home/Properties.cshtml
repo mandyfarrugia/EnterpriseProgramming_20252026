@@ -1,0 +1,27 @@
+﻿@using Domain.Models;
+
+@model Property
+
+@{
+    ViewData["Title"] = "Properties";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<div class="container" id="properties">
+    <div class="row">
+        <small id="property-type">@Model.PropertyType</small>
+        <div class="col-4">
+            <img src="@Model.Image" alt="Property Image" class="img-fluid" />
+        </div>
+        <div class="col-8">
+            <p><strong>Reference No:</strong> @Model.ReferenceNumber</p>
+            <p><strong>Contract Type:</strong> @Model.ContractType</p>
+            <p><strong>Floor Area (sq. m):</strong> @Model.FloorArea</p>
+            <p><strong>Beds:</strong> @Model.Beds</p>
+            <p><strong>Price:</strong> @Model.Price.ToString("C")</p>
+            <p><strong>Locality:</strong> @Model.Locality</p>
+        </div>
+        <p id="property-description">@Model.Description</p>
+    </div>
+</div>

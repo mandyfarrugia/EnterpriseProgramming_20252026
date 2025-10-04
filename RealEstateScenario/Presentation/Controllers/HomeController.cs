@@ -1,3 +1,4 @@
+using Domain.Models;
 using Microsoft.AspNetCore.Mvc;
 using Presentation.Models;
 using System.Diagnostics;
@@ -21,6 +22,11 @@ namespace Presentation.Controllers
         public IActionResult Privacy()
         {
             return View();
+        }
+
+        public IActionResult Properties()
+        {
+            
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
