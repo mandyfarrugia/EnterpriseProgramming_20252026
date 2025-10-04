@@ -10,20 +10,20 @@ namespace Presentation.Controllers
             new Property()
             {
                 Id = 1,
-                Locality = "Gudja",
+                Locality = "L-Imgarr",
                 PropertyType = "Apartment",
                 ReferenceNumber = "ST130825",
                 ContractType = "To Let",
                 FloorArea = 85.5m,
                 Price = 125000m,
                 Beds = 3,
-                Description = "A beautiful apartment in the village in the South Eastern Region.",
-                Image = "https://cf.bstatic.com/xdata/images/hotel/max1024x768/633557974.jpg?k=5cb63cdd2da5c77805bb6eb1a2aa82a30fb5fcb1b8e78e0e0a16e1f28d915582&o=&hp=1"
+                Description = "A beautiful apartment in a rural village in the Northern Region.",
+                Image = "https://upload.wikimedia.org/wikipedia/commons/d/d6/Zebbieh%2C_Mgarr%2C_Malta_-_panoramio_%2828%29.jpg"
             },
             new Property()
             {
                 Id = 2,
-                Locality = "Mosta",
+                Locality = "Il-Mosta",
                 PropertyType = "House of Character",
                 ReferenceNumber = "ST479343",
                 ContractType = "For Sale",
@@ -31,7 +31,7 @@ namespace Presentation.Controllers
                 Price = 1000000m,
                 Beds = 2,
                 Description = "A semi converted 3 bedroom Townhouse with Garden and Garage in Mosta. The property is made up of an open plan Kitchen, Living and Dining area at ground floor level, leading out onto a spacious outdoor area with space for a pool. At first floor level, there are 2 double Bedrooms both having en-suite facilities. At roof level another room which can be used either as a washroom or bedroom, with a bathroom and rooftop jacuzzi complete the property which also comes with a 1 car garage.",
-                Image = "https://www.propertymarket.com.mt/wp-content/plugins/property-market/files/SGM/listings/sgmst479343_cc6477e3-b076-4935-9e66-4ebbbb58a1a4.jpg"
+                Image = "https://scontent.fmla3-1.fna.fbcdn.net/v/t39.30808-6/474561197_611332318310163_1772044688912995423_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=cc71e4&_nc_ohc=gvF-Iijfz6wQ7kNvwGOVLER&_nc_oc=AdmWzWP66BG7la1h0qmCP3Tdynpr5GkAE5BmOXQFRnIreTiHOn9XLLB7aN3FhFNDhHA&_nc_zt=23&_nc_ht=scontent.fmla3-1.fna&_nc_gid=DZ8bMhjH8yu5stLJAvALNQ&oh=00_Afcu1j-x6XydhtkxO_6KAeqMkUOMz4ApQtcBtVc27sw6Sg&oe=68E70104"
             }
         };
 

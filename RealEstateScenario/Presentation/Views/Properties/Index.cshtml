@@ -12,11 +12,11 @@
     @foreach (Property property in Model)
     {
         <div class="row">
-            <small id="property-type">@property.PropertyType</small>
-            <div class="col-4">
+            <small class="fst-italic" id="property-type">@property.PropertyType</small>
+            <div class="col-5">
                 <img src="@property.Image" alt="Property Image" class="img-fluid" />
             </div>
-            <div class="col-8">
+            <div class="col-7">
                 <p><strong>Reference No:</strong> @property.ReferenceNumber</p>
                 <p><strong>Contract Type:</strong> @property.ContractType</p>
                 <p><strong>Floor Area (sq. m):</strong> @property.FloorArea</p>
