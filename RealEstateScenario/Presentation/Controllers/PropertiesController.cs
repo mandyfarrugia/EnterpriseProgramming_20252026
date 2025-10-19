@@ -39,5 +39,10 @@ namespace Presentation.Controllers
         {
             return View(properties);
         }
+
+        public IActionResult Create()
+        {
+            return View();
+        }
     }
 }
