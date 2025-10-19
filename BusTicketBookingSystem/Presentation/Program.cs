@@ -1,4 +1,5 @@
 using DataAccess.Context;
+using DataAccess.Repositories;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -19,6 +20,8 @@ namespace Presentation
             builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<BookingSystemDbContext>();
             builder.Services.AddControllersWithViews();
+
+            builder.Services.AddScoped(typeof(TicketsRepository));
 
             var app = builder.Build();
 
