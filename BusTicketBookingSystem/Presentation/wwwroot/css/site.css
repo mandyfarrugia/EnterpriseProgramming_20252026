@@ -48,10 +48,6 @@ body {
     background-color: #7fb22e !important;
 }
 
-a {
-    text-decoration: none;
-}
-
 .list-group > .list-group-item {
     cursor: pointer;
 }

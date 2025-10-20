@@ -9,10 +9,12 @@
 
 <a class="btn btn-success" href="/Tickets/Create">Add new ticket</a>
 
-@if(!Model.Any())
+<hr>
+
+@if (!Model.Any())
 {
     <div class="alert alert-warning mt-4" role="alert">Unfortunately, no tickets are available at the moment!</div>
-} 
+}
 else
 {
     @foreach (Ticket ticket in Model)

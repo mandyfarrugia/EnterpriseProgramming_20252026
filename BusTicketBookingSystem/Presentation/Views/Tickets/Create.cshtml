@@ -1,4 +1,5 @@
 ﻿@using Domain.Models
+@using System.Globalization
 @model Presentation.Models.ViewModels.TicketCreateViewModel
 
 @{
@@ -29,7 +30,7 @@
                     {
                         @foreach (TicketType ticketType in Model.TicketTypes)
                         {
-                            <option value="@ticketType.Id">@ticketType.Name</option>
+                            <option value="@ticketType.Id">@ticketType.Name (@ticketType.Cost.ToString("C", CultureInfo.GetCultureInfo("mt-MT")))</option>
                         }
                     }
                 </select>

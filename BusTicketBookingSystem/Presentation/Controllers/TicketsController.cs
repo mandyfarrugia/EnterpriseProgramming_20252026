@@ -36,9 +36,28 @@ namespace Presentation.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(TicketCreateViewModel ticketCreateViewModel)
+        public IActionResult Create(TicketCreateViewModel ticketCreateViewModel,
+                                    [FromServices] TicketTypesRepository ticketTypesRepository,
+                                    [FromServices] LinesRepository linesRepository,
+                                    [FromServices] LocationsRepository locationsRepository,
+                                    [FromServices] BusesRepository busesRepository)
         {
-            return View();
+            try
+            {
+                this._ticketsRepository.AddTicket(ticketCreateViewModel.Ticket);
+                TempData["success"] = "Ticket saved successfully!";
+                return RedirectToAction(nameof(Create));
+            }
+            catch(Exception exception)
+            {
+                TempData["failure"] = "Failed to save ticket. Please try again!";
+                ticketCreateViewModel.TicketTypes = ticketTypesRepository.Get().ToList();
+                ticketCreateViewModel.Lines = linesRepository.Get().ToList();
+                ticketCreateViewModel.Origins = locationsRepository.Get().ToList();
+                ticketCreateViewModel.Destinations = locationsRepository.Get().ToList();
+                ticketCreateViewModel.Buses = busesRepository.Get().ToList();
+                return View(ticketCreateViewModel);
+            }
         }
     
         public IActionResult Delete(Guid id)
