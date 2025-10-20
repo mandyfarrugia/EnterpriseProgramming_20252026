@@ -22,6 +22,11 @@ namespace DataAccess.Repositories
             return this._context.Lines;
         }
 
+        public Line? Get(Guid id)
+        {
+            return this.Get().SingleOrDefault(line => line.Id == id);
+        }
+
         public Line? Get(string routeIdentifier)
         {
             return this.Get().SingleOrDefault(line => line.Name.Equals(routeIdentifier));
@@ -35,7 +40,7 @@ namespace DataAccess.Repositories
 
         public void UpdateLine(Line line) 
         {
-            Line? lineToUpdate = this.Get(line.Name);
+            Line? lineToUpdate = this.Get(line.Id);
 
             if(lineToUpdate != null)
             {
@@ -44,9 +49,9 @@ namespace DataAccess.Repositories
             }
         }
 
-        public void DeleteLine(string routeIdentifier) 
+        public void DeleteLine(Guid id) 
         {
-            Line? lineToDelete = this.Get(routeIdentifier);
+            Line? lineToDelete = this.Get(id);
 
             if(lineToDelete != null)
             {
