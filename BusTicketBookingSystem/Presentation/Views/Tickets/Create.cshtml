@@ -1,4 +1,5 @@
-﻿@model Domain.Models.Ticket
+﻿@using Domain.Models
+@model Presentation.Models.ViewModels.TicketCreateViewModel
 
 @{
     ViewData["Title"] = "Create";
@@ -8,41 +9,83 @@
 
 <h4>Ticket</h4>
 <hr />
+
 <div class="row">
     <div class="col-md-6 col-lg-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="ReferenceNumber" class="control-label"></label>
-                <input asp-for="ReferenceNumber" class="form-control" />
-                <span asp-validation-for="ReferenceNumber" class="text-danger"></span>
+        <form method="post" action="/Tickets/Create">
+            <div class="form-group mb-3">
+                <label class="control-label">Reference Number</label>
+                <input type="text" name="Ticket.ReferenceNumber" class="form-control"/>
             </div>
-            <div class="form-group">
-                <label asp-for="IssueDate" class="control-label"></label>
-                <input asp-for="IssueDate" class="form-control" />
-                <span asp-validation-for="IssueDate" class="text-danger"></span>
+            <div class="form-group mb-3">
+                <label class="control-label">Issue Date</label>
+                <input type="date" name="Ticket.IssueDate" class="form-control"/>
             </div>
-            <div class="form-group">
-                <label asp-for="TicketTypeFK" class="control-label"></label>
-                <select asp-for="TicketTypeFK" class ="form-control" asp-items="ViewBag.TicketTypeFK"></select>
+            <div class="form-group mb-3">
+                <label class="control-label">Ticket Type</label>
+                <select name="Ticket.TicketTypeFK" class="form-control">
+                    <option value="-1">Please select a ticket type</option>
+                    @if (Model.TicketTypes != null)
+                    {
+                        @foreach (TicketType ticketType in Model.TicketTypes)
+                        {
+                            <option value="@ticketType.Id">@ticketType.Name</option>
+                        }
+                    }
+                </select>
             </div>
-            <div class="form-group">
-                <label asp-for="LineFK" class="control-label"></label>
-                <select asp-for="LineFK" class ="form-control" asp-items="ViewBag.LineFK"></select>
+            <div class="form-group mb-3">
+                <label class="control-label">Route</label>
+                <select name="Ticket.LineFK" class="form-control">
+                    <option value="-1">Please select a route</option>
+                    @if (Model.Lines != null)
+                    {
+                        @foreach (Line line in Model.Lines)
+                        {
+                            <option value="@line.Id">@line.Name</option>
+                        }
+                    }
+                </select>
             </div>
-            <div class="form-group">
-                <label asp-for="OriginFK" class="control-label"></label>
-                <select asp-for="OriginFK" class ="form-control" asp-items="ViewBag.OriginFK"></select>
+            <div class="form-group mb-3">
+                <label class="control-label">Origin</label>
+                <select name="Ticket.OriginFK" class="form-control">
+                    <option value="-1">Please select an origin</option>
+                    @if (Model.Origins != null)
+                    {
+                        @foreach (Location origin in Model.Origins)
+                        {
+                            <option value="@origin.Id">@origin.Name</option>
+                        }
+                    }
+                </select>
             </div>
-            <div class="form-group">
-                <label asp-for="DestinationFK" class="control-label"></label>
-                <select asp-for="DestinationFK" class ="form-control" asp-items="ViewBag.DestinationFK"></select>
+            <div class="form-group mb-3">
+                <label class="control-label">Destination</label>
+                <select name="Ticket.DestinationFK" id="" class="form-control">
+                    @if (Model.Destinations != null)
+                    {
+                        @foreach (Location destination in Model.Destinations)
+                        {
+                            <option value="@destination.Id">@destination.Name</option>
+                        }
+                    }
+                </select>
             </div>
-            <div class="form-group">
-                <label asp-for="BusFK" class="control-label"></label>
-                <select asp-for="BusFK" class ="form-control" asp-items="ViewBag.BusFK"></select>
+            <div class="form-group mb-3">
+                <label class="control-label">Bus</label>
+                <select name="Ticket.BusFK" class="form-control">
+                    <option value="-1">Please select a bus</option>
+                    @if(Model.Buses != null)
+                    {
+                        @foreach(Bus bus in Model.Buses)
+                        {
+                            <option value="@bus.Id">@bus.Plate</option>
+                        }
+                    }
+                </select>
             </div>
-            <div class="form-group">
+            <div class="form-group mb-3">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
         </form>
@@ -50,9 +93,11 @@
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a class="btn btn-primary" href="/Tickets/Index">Back to tickets</a>
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }

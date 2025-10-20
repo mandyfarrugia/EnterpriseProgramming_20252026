@@ -22,7 +22,10 @@ namespace Presentation
             builder.Services.AddControllersWithViews();
 
             builder.Services.AddScoped(typeof(TicketsRepository));
+            builder.Services.AddScoped(typeof(TicketTypesRepository));
             builder.Services.AddScoped(typeof(LinesRepository));
+            builder.Services.AddScoped(typeof(LocationsRepository));
+            builder.Services.AddScoped(typeof(BusesRepository));
 
             var app = builder.Build();
 

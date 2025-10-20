@@ -1,6 +1,7 @@
 ﻿using DataAccess.Repositories;
 using Domain.Models;
 using Microsoft.AspNetCore.Mvc;
+using Presentation.Models.ViewModels;
 
 namespace Presentation.Controllers
 {
@@ -19,10 +20,25 @@ namespace Presentation.Controllers
             return View(tickets);
         }
 
-        public IActionResult Create()
+        [HttpGet]
+        public IActionResult Create([FromServices] TicketTypesRepository ticketTypesRepository, 
+                                    [FromServices] LinesRepository linesRepository, 
+                                    [FromServices] LocationsRepository locationsRepository,
+                                    [FromServices] BusesRepository busesRepository)
         {
-            Ticket ticket = new Ticket();
-            return View(ticket);
+            TicketCreateViewModel ticketCreateViewModel = new TicketCreateViewModel();
+            ticketCreateViewModel.TicketTypes = ticketTypesRepository.Get().ToList();
+            ticketCreateViewModel.Lines = linesRepository.Get().ToList();
+            ticketCreateViewModel.Origins = locationsRepository.Get().ToList();
+            ticketCreateViewModel.Destinations = locationsRepository.Get().ToList();
+            ticketCreateViewModel.Buses = busesRepository.Get().ToList();
+            return View(ticketCreateViewModel);
+        }
+
+        [HttpPost]
+        public IActionResult Create(TicketCreateViewModel ticketCreateViewModel)
+        {
+            return View();
         }
     
         public IActionResult Delete(Guid id)
