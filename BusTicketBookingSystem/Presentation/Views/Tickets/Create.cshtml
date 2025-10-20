@@ -1,0 +1,58 @@
+﻿@model Domain.Models.Ticket
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>Ticket</h4>
+<hr />
+<div class="row">
+    <div class="col-md-6 col-lg-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="ReferenceNumber" class="control-label"></label>
+                <input asp-for="ReferenceNumber" class="form-control" />
+                <span asp-validation-for="ReferenceNumber" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="IssueDate" class="control-label"></label>
+                <input asp-for="IssueDate" class="form-control" />
+                <span asp-validation-for="IssueDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TicketTypeFK" class="control-label"></label>
+                <select asp-for="TicketTypeFK" class ="form-control" asp-items="ViewBag.TicketTypeFK"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="LineFK" class="control-label"></label>
+                <select asp-for="LineFK" class ="form-control" asp-items="ViewBag.LineFK"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="OriginFK" class="control-label"></label>
+                <select asp-for="OriginFK" class ="form-control" asp-items="ViewBag.OriginFK"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="DestinationFK" class="control-label"></label>
+                <select asp-for="DestinationFK" class ="form-control" asp-items="ViewBag.DestinationFK"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="BusFK" class="control-label"></label>
+                <select asp-for="BusFK" class ="form-control" asp-items="ViewBag.BusFK"></select>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

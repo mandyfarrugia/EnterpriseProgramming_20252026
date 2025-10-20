@@ -1,0 +1,30 @@
+﻿@using Domain.Models;
+@model List<Domain.Models.Line>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Ticket Booking System</h1>
+<h2>All routes</h2>
+
+<ul class="list-group" id="routes-list">
+    @foreach (Line line in @Model)
+    {
+        <li class="list-group-item list-group-item-action" data-route="@line.Name">Route @line.Name</li>
+    }
+</ul>
+
+<script>
+    function handleRouteClick(event) {
+        event.preventDefault();
+        const selectedRoute = event.target;
+        const dataRoute = selectedRoute.getAttribute('data-route');
+        window.open(`https://www.publictransport.com.mt/route/${dataRoute}`, '_blank');
+    }
+
+    const routeLinks = document.querySelectorAll('#routes-list .list-group-item');
+    routeLinks.forEach(routeLink => {
+        routeLink.addEventListener('click', (event) => handleRouteClick(event));
+    });
+</script>

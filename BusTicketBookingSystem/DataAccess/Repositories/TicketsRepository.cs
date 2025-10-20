@@ -17,6 +17,11 @@ namespace DataAccess.Repositories
             return this._context.Tickets;
         }
 
+        public Ticket? Get(Guid id)
+        {
+            return this.Get().SingleOrDefault(ticket => ticket.Id == id);
+        }
+
         public Ticket? Get(string referenceNumber) 
         {
             return this.Get().SingleOrDefault(ticket => ticket.ReferenceNumber.Equals(referenceNumber));
@@ -46,9 +51,9 @@ namespace DataAccess.Repositories
             }
         }
 
-        public void DeleteTicket(string referenceNumber) 
+        public void DeleteTicket(Guid id) 
         {
-            Ticket? ticketToDelete = this.Get(referenceNumber);
+            Ticket? ticketToDelete = this.Get(id);
             
             if(ticketToDelete != null)
             {
