@@ -1,0 +1,33 @@
+﻿@using Domain.Models
+@model List<Fleet>;
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Ticket Management System</h1>
+
+<a class="btn btn-success" href="/Fleets/Create">Add New Fleet</a>
+
+<hr>
+
+@if (!Model.Any())
+{
+    <div class="alert alert-warning mt-4" role="alert">Unfortunately, there are no fleets available at the moment!</div>
+}
+else
+{
+    <div class="container">
+        @foreach (Fleet fleet in @Model)
+        {
+            <div class="row">
+                <div class="col-5">
+                    <img src="@fleet.ImagePath" alt="@fleet.Name was built in @fleet.YearBuilt.">
+                </div>
+                <div class="col-7">
+                    <p><strong>@fleet.Name</strong></p>
+                </div>
+            </div>
+        }
+    </div>
+}

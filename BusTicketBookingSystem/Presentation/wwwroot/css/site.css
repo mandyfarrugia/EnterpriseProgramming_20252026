@@ -51,3 +51,7 @@ body {
 .list-group > .list-group-item {
     cursor: pointer;
 }
+
+.form-group.mb-3 > label {
+    margin-bottom: 1%;
+}

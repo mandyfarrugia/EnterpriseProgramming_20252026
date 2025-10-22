@@ -26,6 +26,7 @@ namespace Presentation
             builder.Services.AddScoped(typeof(LinesRepository));
             builder.Services.AddScoped(typeof(LocationsRepository));
             builder.Services.AddScoped(typeof(BusesRepository));
+            builder.Services.AddScoped(typeof(FleetsRepository));
 
             var app = builder.Build();
 

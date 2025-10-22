@@ -28,6 +28,9 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Tickets" asp-action="Index">Tickets</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Fleets" asp-action="Index">Fleets</a>
+                        </li>
                     </ul>
                     <partial name="_LoginPartial" />
                 </div>
@@ -35,7 +38,7 @@
         </nav>
     </header>
     <div class="container">
-        @if(TempData["success"] != null)
+        @if (TempData["success"] != null)
         {
             <div class="alert alert-success" role="alert">@TempData["success"]!.ToString()</div>
         }
