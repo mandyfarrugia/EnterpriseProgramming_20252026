@@ -10,6 +10,6 @@ namespace Presentation.Models.ViewModels
         [Required]
         public short YearBuilt { get; set; }
 
-        public IFormFile? ImagePath { get; set; }
+        public IFormFile? ImageFile { get; set; }
     }
 }

@@ -18,14 +18,19 @@
 else
 {
     <div class="container">
-        @foreach (Fleet fleet in @Model)
+        @foreach (Fleet fleet in Model)
         {
-            <div class="row">
-                <div class="col-5">
-                    <img src="@fleet.ImagePath" alt="@fleet.Name was built in @fleet.YearBuilt.">
+            <div class="row mb-4 align-items-center">
+                <div class="col-md-5 mb-3 mb-md-0">
+                    <img class="img-fluid rounded fleet-img"
+                         src="@(string.IsNullOrEmpty(fleet.ImagePath) ? "https://dummyimage.com/600x400/000/fff&text=No+image+available" : fleet.ImagePath)"
+                         alt="@fleet.Name was built in @fleet.YearBuilt.">
                 </div>
-                <div class="col-7">
-                    <p><strong>@fleet.Name</strong></p>
+                <div class="col-md-7">
+                    <h4>@fleet.Name</h4>
+                    <p><strong>Built in:</strong> @fleet.YearBuilt</p>
+                    <a class="btn btn-primary me-2" href="/Fleets/Edit/@fleet.Id">Edit</a>
+                    <a class="btn btn-danger me-2" href="/Fleets/Delete/@fleet.Id">Delete</a>
                 </div>
             </div>
         }
