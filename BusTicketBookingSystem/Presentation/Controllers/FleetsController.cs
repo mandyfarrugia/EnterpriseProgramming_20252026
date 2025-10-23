@@ -113,7 +113,26 @@ namespace Presentation.Controllers
             }
         }
 
-        public IActionResult Delete(Guid id)
+        [HttpGet]
+        public IActionResult Edit(Guid id)
+        {
+            FleetEditViewModel fleetEditViewModel = new FleetEditViewModel();
+            Fleet? fleetToEdit = this._fleetsRepository.Get(id);
+
+            if(fleetToEdit != null)
+            {
+                fleetEditViewModel.Id = id;
+                fleetEditViewModel.Name = fleetToEdit.Name;
+                fleetEditViewModel.YearBuilt = fleetToEdit.YearBuilt;
+                fleetEditViewModel.ImagePath = fleetToEdit.ImagePath;
+                return View(fleetEditViewModel);
+            }
+
+            TempData["failure"] = "Unable to locate fleet. The ID may have been tampered with!";
+            return RedirectToAction(nameof(Index));
+        }
+
+        public IActionResult Delete(Guid id, [FromServices] IWebHostEnvironment host)
         {
             try
             {
@@ -121,6 +140,17 @@ namespace Presentation.Controllers
 
                 if(fleetToDelete != null)
                 {
+                    if(!string.IsNullOrEmpty(fleetToDelete.ImagePath))
+                    {
+                        string pathToWWWRootFolder = host.WebRootPath;
+                        string absolutePath = Path.Combine(pathToWWWRootFolder, fleetToDelete.ImagePath.TrimStart(Path.DirectorySeparatorChar));
+
+                        if(System.IO.File.Exists(absolutePath))
+                        {
+                            System.IO.File.Delete(absolutePath);
+                        }
+                    }
+
                     this._fleetsRepository.DeleteFleet(id);
                     TempData["success"] = "Fleet deleted successfully!";
                 }

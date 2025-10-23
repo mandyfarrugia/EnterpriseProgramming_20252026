@@ -29,7 +29,12 @@ else
         @if(ViewData["search_hits"] != null)
         {
             <div class="row mb-4">
-                <small class="text-muted">This search has returned @ViewData["search_hits"] results.</small>
+                @{
+                    int? resultCount = ViewData["search_hits"] as int?;
+                    string outputBasedOnCount = resultCount == 1 ? string.Empty : "s";
+                }
+
+                <small class="text-muted">This search has returned @ViewData["search_hits"] @(string.Join(string.Empty, "result", outputBasedOnCount)).</small>
             </div>
         }
         @foreach (Fleet fleet in Model)
