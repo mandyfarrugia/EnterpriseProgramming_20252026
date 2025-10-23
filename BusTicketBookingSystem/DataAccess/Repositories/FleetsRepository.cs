@@ -22,6 +22,11 @@ namespace DataAccess.Repositories
             return this._context.Fleets;
         }
 
+        public IQueryable<Fleet> GetFleetsByName(string fleetIdentifier)
+        {
+            return this.Get().Where(fleet => fleet.Name.Contains(fleetIdentifier));
+        }
+
         public Fleet? Get(Guid id)
         {
             return this.Get().SingleOrDefault(fleet => fleet.Id == id);

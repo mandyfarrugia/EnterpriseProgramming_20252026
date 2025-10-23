@@ -1,6 +1,7 @@
 ﻿using DataAccess.Repositories;
 using Domain.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Presentation.Models.ViewModels;
 
 namespace Presentation.Controllers
@@ -18,6 +19,22 @@ namespace Presentation.Controllers
         {
             List<Fleet> fleets = this._fleetsRepository.Get().ToList();
             return View(fleets);
+        }
+
+        [HttpGet("Fleets/Search")]
+        public IActionResult Search(string searchTerm)
+        {
+            List<Fleet>? fleets = null;
+
+            if (string.IsNullOrEmpty(searchTerm))
+            {
+                fleets = this._fleetsRepository.Get().ToList();
+                return View(nameof(Index), fleets);
+            }
+
+            fleets = this._fleetsRepository.GetFleetsByName(searchTerm).ToList();
+            ViewData["search_hits"] = fleets.Count();
+            return View(nameof(Index), fleets);
         }
 
         [HttpGet]
@@ -61,7 +78,7 @@ namespace Presentation.Controllers
                     }
 
                     string absolutePath = Path.Combine(pathToImagesWithinWWWRoot, filename); //This path is to be accessed when copying the image to the FileStream instance - we need to know where we are getting the image from.
-                    relativePath = Path.Combine("images", filename); //This path is to be assigned to the image path corresponding to the Fleet entity being inserted into the database.
+                    relativePath = Path.Combine(string.Join(string.Empty, Path.DirectorySeparatorChar, "images"), filename); //This path is to be assigned to the image path corresponding to the Fleet entity being inserted into the database.
 
                     /* Access the absolute path (the path to the images folder within wwwroot) in which the image selected when filling in the form will be uploaded.
                      * FileMode.CreateNew allows the file to be created (in layman terms, uploaded to the specified path) but throw an exception if the file already exists.
@@ -87,12 +104,37 @@ namespace Presentation.Controllers
                     }
                 }
 
-                return RedirectToAction(nameof(Create));
+                return RedirectToAction(nameof(Create)); //TempData only survives a redirection, not when returning a view.
             }
             catch(Exception exception)
             {
                 TempData["failure"] = "Unable to insert fleet!";
                 return View(fleetCreateViewModel);
+            }
+        }
+
+        public IActionResult Delete(Guid id)
+        {
+            try
+            {
+                Fleet? fleetToDelete = this._fleetsRepository.Get(id);
+
+                if(fleetToDelete != null)
+                {
+                    this._fleetsRepository.DeleteFleet(id);
+                    TempData["success"] = "Fleet deleted successfully!";
+                }
+                else
+                {
+                    TempData["failure"] = "Unable to locate fleet! The ID may have been tampered with.";
+                }
+
+                return RedirectToAction(nameof(Index));
+            }
+            catch(Exception exception)
+            {
+                TempData["failure"] = "Failed to delete fleet, try again!";
+                return RedirectToAction(nameof(Index));
             }
         }
     }

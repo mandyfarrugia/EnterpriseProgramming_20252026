@@ -8,24 +8,26 @@
 
 <hr>
 
-<div class="row">
-    <div class="col-md-6 col-lg-4">
-        <form method="post" action="/Fleets/Create" enctype="multipart/form-data">
-            <div class="form-group mb-3">
-                <label class="control-label">Name</label>
-                <input class="form-control" type="text" name="Name" value="@Model.Name"/>
-            </div>
-            <div class="form-group mb-3">
-                <label class="control-label">Year Built</label>
-                <input class="form-control" type="number" name="YearBuilt" value="@Model.YearBuilt"/>
-            </div>
-            <div class="form-group mb-3">
-                <label class="control-label">Image</label>
-                <input type="file" class="form-control" name="ImageFile"/>
-            </div>
-            <div class="form-group mb-3">
-                <input type="submit" value="Create" class="btn btn-primary"/>
-            </div>
-        </form>
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 col-lg-4">
+            <form method="post" action="/Fleets/Create" enctype="multipart/form-data">
+                <div class="form-group mb-3">
+                    <label class="control-label">Name</label>
+                    <input class="form-control" type="text" name="Name" value="@Model.Name" />
+                </div>
+                <div class="form-group mb-3">
+                    <label class="control-label">Year Built</label>
+                    <input class="form-control" type="number" name="YearBuilt" value="@Model.YearBuilt" />
+                </div>
+                <div class="form-group mb-3">
+                    <label class="control-label">Image</label>
+                    <input type="file" class="form-control" name="ImageFile" />
+                </div>
+                <div class="form-group mb-3">
+                    <input type="submit" value="Create" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
     </div>
 </div>
