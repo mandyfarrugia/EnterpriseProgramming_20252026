@@ -3,6 +3,7 @@ using Domain.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Presentation.Models.ViewModels;
+using System.Net.Http.Headers;
 
 namespace Presentation.Controllers
 {
@@ -26,7 +27,7 @@ namespace Presentation.Controllers
         {
             List<Fleet>? fleets = null;
 
-            if (string.IsNullOrEmpty(searchTerm))
+            if (string.IsNullOrWhiteSpace(searchTerm))
             {
                 fleets = this._fleetsRepository.Get().ToList();
                 return View(nameof(Index), fleets);
@@ -89,19 +90,19 @@ namespace Presentation.Controllers
                         fileStream.Flush(); //Ensure everything is saved properly.
                         fileStream.Close(); //Dispose of the FileStream instance safely.
                     }
+                }
 
-                    if(this._fleetsRepository.Get(fleetCreateViewModel.Name) == null)
+                if (this._fleetsRepository.Get(fleetCreateViewModel.Name) == null)
+                {
+                    Fleet fleetToInsert = new Fleet()
                     {
-                        Fleet fleetToInsert = new Fleet()
-                        {
-                            Name = fleetCreateViewModel.Name,
-                            ImagePath = relativePath,
-                            YearBuilt = fleetCreateViewModel.YearBuilt
-                        };
+                        Name = fleetCreateViewModel.Name,
+                        ImagePath = !string.IsNullOrWhiteSpace(relativePath) ? relativePath : null,
+                        YearBuilt = fleetCreateViewModel.YearBuilt
+                    };
 
-                        this._fleetsRepository.AddFleet(fleetToInsert);
-                        TempData["success"] = "Fleet inserted successfully!";
-                    }
+                    this._fleetsRepository.AddFleet(fleetToInsert);
+                    TempData["success"] = "Fleet inserted successfully!";
                 }
 
                 return RedirectToAction(nameof(Create)); //TempData only survives a redirection, not when returning a view.
@@ -130,6 +131,75 @@ namespace Presentation.Controllers
 
             TempData["failure"] = "Unable to locate fleet. The ID may have been tampered with!";
             return RedirectToAction(nameof(Index));
+        }
+
+        [HttpPost]
+        public IActionResult Edit(FleetEditViewModel fleetEditViewModel, [FromServices] IWebHostEnvironment host)
+        {
+            string relativePath = string.Empty;
+
+            try
+            {
+                if(!ModelState.IsValid)
+                {
+                    return View(fleetEditViewModel);
+                }
+
+                if(this._fleetsRepository.Get(fleetEditViewModel.Id) == null)
+                {
+                    TempData["failure"] = "This ID does not correspond with any of the fleets! Try again!";
+                    return RedirectToAction(nameof(Index));
+                }
+
+                if(fleetEditViewModel.ImageFile != null && !string.IsNullOrEmpty(fleetEditViewModel.ImageFile.FileName))
+                {
+                    string filename = string.Join(string.Empty, new object[] { Guid.NewGuid(), Path.GetExtension(fleetEditViewModel.ImageFile.FileName) });
+                    string pathToImagesWithinWWWRootFolder = Path.Combine(host.WebRootPath, "images");
+
+                    if(!Directory.Exists(pathToImagesWithinWWWRootFolder))
+                    {
+                        Directory.CreateDirectory(pathToImagesWithinWWWRootFolder);
+                    }
+
+                    string absolutePath = Path.Combine(pathToImagesWithinWWWRootFolder, filename);
+                    relativePath = Path.Combine(string.Join(string.Empty, Path.DirectorySeparatorChar, "images"), filename);
+
+                    using (FileStream fileStream = new FileStream(absolutePath, FileMode.CreateNew))
+                    {
+                        fleetEditViewModel.ImageFile.CopyTo(fileStream);
+                        fileStream.Flush();
+                        fileStream.Close();
+                    }
+
+                    string? pathToOldImage = this._fleetsRepository.Get(fleetEditViewModel.Id).ImagePath;
+
+                    if(!string.IsNullOrEmpty(pathToOldImage))
+                    {
+                        string absolutePathToOldImage = Path.Combine(pathToImagesWithinWWWRootFolder, Path.GetFileName(pathToOldImage));
+                        System.IO.File.Delete(absolutePathToOldImage);
+                    }
+                }
+                else
+                {
+                    relativePath = this._fleetsRepository.Get(fleetEditViewModel.Id).ImagePath;
+                }
+
+                Fleet fleetToUpdate = new Fleet()
+                {
+                    Id = fleetEditViewModel.Id,
+                    Name = fleetEditViewModel.Name,
+                    YearBuilt = fleetEditViewModel.YearBuilt,
+                    ImagePath = !string.IsNullOrWhiteSpace(relativePath) ? relativePath : null
+                };
+
+                this._fleetsRepository.UpdateFleet(fleetToUpdate);
+                TempData["success"] = "Fleet has been updated successfully!";
+                return RedirectToAction(nameof(Edit), new { id = fleetEditViewModel.Id });
+            }
+            catch(Exception exception)
+            {
+                return View(fleetEditViewModel);
+            }
         }
 
         public IActionResult Delete(Guid id, [FromServices] IWebHostEnvironment host)

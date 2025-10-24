@@ -4,36 +4,32 @@
     ViewData["Title"] = "Edit";
 }
 
-<div class="row">
-    <div class="page-header">
-        <nav class="breadcrumb">
-            <a href="/">Home</a>
-            <span>›</span>
-            <a href="/Fleets">Fleets</a>
-            <span>›</span>
-            <span class="current">Search</span>
-        </nav>
+<h1>Ticket Management System</h1>
 
-        <h1 class="page-title">Fleet Management – Search Results</h1>
-    </div>
-</div>
+<hr>
 
-<div class="row">
-    <div class="col-md-4">
-        <form action="/Fleets/Edit" method="post" enctype="multipart/form-data">
-            <input type="hidden" name="Id" value="@Model.Id" />
-            <div class="form-group mb-3">
-                <label class="control-label">Name</label>
-                <input class="form-control" type="text" value="@Model.Name" />
-            </div>
-            <div class="form-group mb-3">
-                <label class="control-label">Year Built</label>
-                <input class="form-control" type="number" value="@Model.YearBuilt" />
-            </div>
-            <div class="form-group mb-3">
-                <label class="control-label">Image</label>
-                <input class="form-control" type="file" />
-            </div>
-        </form>
+<div class="container">
+    <div class="row">
+        <div class="col-md-4">
+            <form action="/Fleets/Edit" method="post" enctype="multipart/form-data">
+                <input type="hidden" name="Id" value="@Model.Id"/>
+                <div class="form-group mb-3">
+                    <label class="control-label mb-1">@Html.DisplayNameFor(fleet => fleet.Name)</label>
+                    <input class="form-control" type="text" name="Name" value="@Model.Name"/>
+
+                </div>
+                <div class="form-group mb-3">
+                    <label class="control-label mb-1">@Html.DisplayNameFor(fleet => fleet.YearBuilt)</label>
+                    <input class="form-control" type="number" name="YearBuilt" value="@Model.YearBuilt"/>
+                </div>
+                <div class="form-group mb-3">
+                    <label class="control-label mb-1">@Html.DisplayNameFor(fleet => fleet.ImageFile)</label>
+                    <input class="form-control" name="ImageFile" type="file"/>
+                </div>
+                <div class="form-group mb-3">
+                    <input class="btn btn-primary" type="submit" value="Submit" />
+                </div>
+            </form>
+        </div>
     </div>
 </div>
